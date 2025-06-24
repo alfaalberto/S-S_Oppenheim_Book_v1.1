@@ -13,6 +13,7 @@ interface SlidesContextType {
   updateSlideContent: (sectionId: string, slideIndex: number, html: string) => Promise<void>;
   addSlide: (sectionId: string) => Promise<number>; // Returns the new slide index
   deleteSlide: (sectionId: string, slideIndex: number) => Promise<void>;
+  reorderSlides: (sectionId: string, fromIndex: number, toIndex: number) => Promise<number>;
   isLoading: boolean;
 }
 
@@ -124,6 +125,37 @@ export function SlidesProvider({ children }: { children: ReactNode }) {
     }
   }, [slidesBySection, toast]);
 
+  const reorderSlides = useCallback(async (sectionId: string, fromIndex: number, toIndex: number) => {
+    const currentSlides = [...(slidesBySection[sectionId] || [])];
+    
+    if (fromIndex < 0 || fromIndex >= currentSlides.length || toIndex < 0 || toIndex >= currentSlides.length) {
+      console.error("Invalid index for reordering");
+      toast({ variant: "destructive", title: "Error", description: "Índice no válido para reordenar." });
+      return fromIndex;
+    }
+
+    const [movedItem] = currentSlides.splice(fromIndex, 1);
+    currentSlides.splice(toIndex, 0, movedItem);
+
+    try {
+      await db.saveSlidesForSection(sectionId, currentSlides);
+      setSlidesBySection(prev => ({ ...prev, [sectionId]: currentSlides }));
+      toast({
+        title: "Diapositiva Reordenada",
+        description: `El orden de las diapositivas se ha actualizado.`,
+      });
+      return toIndex; // Return the new index of the moved slide
+    } catch (error) {
+      console.error("Failed to reorder slides", error);
+      toast({
+        variant: "destructive",
+        title: "Error al Reordenar",
+        description: "No se pudo cambiar el orden de las diapositivas.",
+      });
+      return fromIndex;
+    }
+  }, [slidesBySection, toast]);
+
 
   const value = {
     slidesBySection,
@@ -133,6 +165,7 @@ export function SlidesProvider({ children }: { children: ReactNode }) {
     updateSlideContent,
     addSlide,
     deleteSlide,
+    reorderSlides,
     isLoading,
   };
 

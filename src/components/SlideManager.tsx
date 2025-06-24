@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { SlideViewer } from './SlideViewer';
 import { SlideEditor } from './SlideEditor';
 import { Welcome } from './Welcome';
-import { ChevronLeft, ChevronRight, Plus, FilePlus, Trash2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, FilePlus, Trash2, ArrowLeft, ArrowRight } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +27,8 @@ export function SlideManager() {
     getSlidesForSection, 
     updateSlideContent,
     addSlide,
-    deleteSlide
+    deleteSlide,
+    reorderSlides
   } = useSlides();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
@@ -70,6 +71,17 @@ export function SlideManager() {
     if (!activeSection || slides.length === 0) return;
     await deleteSlide(activeSection.id, currentSlideIndex);
   };
+
+  const handleReorder = async (direction: 'left' | 'right') => {
+    if (!activeSection) return;
+    const fromIndex = currentSlideIndex;
+    const toIndex = direction === 'left' ? fromIndex - 1 : fromIndex + 1;
+
+    if (toIndex < 0 || toIndex >= slides.length) return;
+
+    const newIndex = await reorderSlides(activeSection.id, fromIndex, toIndex);
+    setCurrentSlideIndex(newIndex);
+  };
   
   const slideContent = slides[currentSlideIndex] ?? null;
 
@@ -77,24 +89,48 @@ export function SlideManager() {
     if (!isLeafNode) return null;
 
     return (
-      <div className="flex items-center justify-between gap-4 mb-4">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
+        <div className="flex items-center gap-1">
           <Button 
             variant="outline" 
             size="icon" 
             onClick={() => setCurrentSlideIndex(i => i - 1)}
             disabled={currentSlideIndex === 0}
+            title="Diapositiva anterior"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <span className="text-sm font-medium text-muted-foreground w-28 text-center">
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => handleReorder('left')}
+            disabled={currentSlideIndex === 0}
+            title="Mover diapositiva a la izquierda"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+
+          <span className="text-sm font-medium text-muted-foreground w-28 text-center px-2">
             Diapositiva {slides.length > 0 ? currentSlideIndex + 1 : 0} de {slides.length}
           </span>
+          
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => handleReorder('right')}
+            disabled={currentSlideIndex >= slides.length - 1}
+            title="Mover diapositiva a la derecha"
+          >
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+          
           <Button 
             variant="outline" 
             size="icon" 
             onClick={() => setCurrentSlideIndex(i => i + 1)}
             disabled={currentSlideIndex >= slides.length - 1}
+            title="Siguiente diapositiva"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
