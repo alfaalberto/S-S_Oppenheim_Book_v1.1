@@ -49,23 +49,21 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     <html>
       <head>
         <style>
-          html, body {
-            height: 100%;
-            width: 100%;
+          html {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+          }
+          body {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             background-color: white;
-          }
-          body {
             overflow-y: auto;
-            padding: 2rem;
-            display: flex;
-            justify-content: center;
           }
           .content-wrapper {
-            max-width: 100%;
-            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
           }
         </style>
       </head>
