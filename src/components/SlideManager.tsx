@@ -94,7 +94,7 @@ export function SlideManager() {
             <>
               {renderSlideControls()}
               {slides.length > 0 ? (
-                <Tabs defaultValue="view" className="flex-1 flex flex-col" key={activeSection.id + '-' + currentSlideIndex}>
+                <Tabs defaultValue="view" className="flex-1 flex flex-col">
                   <TabsList className="self-start">
                     <TabsTrigger value="view">Visualizar</TabsTrigger>
                     <TabsTrigger value="edit">Editar HTML</TabsTrigger>
@@ -110,7 +110,6 @@ export function SlideManager() {
                   </TabsContent>
                   <TabsContent value="edit" className="flex-1 mt-4">
                     <SlideEditor
-                      key={activeSection.id + '-' + currentSlideIndex} // Important to re-mount editor
                       initialContent={slideContent}
                       onSave={handleSave}
                     />
