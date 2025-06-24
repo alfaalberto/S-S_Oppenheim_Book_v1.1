@@ -49,18 +49,20 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     <html>
       <head>
         <style>
-          html {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.5;
+          html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
           }
           *, *:before, *:after {
             box-sizing: inherit;
           }
           body {
-            margin: 0;
-            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
             background-color: white;
+            overflow-y: auto; /* Allow vertical scrolling */
           }
           .content-wrapper {
             max-width: 1200px;
