@@ -8,21 +8,44 @@ import { Button } from '@/components/ui/button';
 import { SlideViewer } from './SlideViewer';
 import { SlideEditor } from './SlideEditor';
 import { Welcome } from './Welcome';
-import { ChevronLeft, ChevronRight, Plus, FilePlus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, FilePlus, Trash2 } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export function SlideManager() {
   const { 
     activeSection, 
     getSlidesForSection, 
     updateSlideContent,
-    addSlide 
+    addSlide,
+    deleteSlide
   } = useSlides();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
-  // Reset slide index when section changes
+  const slides = activeSection ? getSlidesForSection(activeSection.id) : [];
+
   useEffect(() => {
+    // When the active section changes, reset the slide index to the beginning.
     setCurrentSlideIndex(0);
   }, [activeSection]);
+
+  useEffect(() => {
+    // When slides change (e.g., after deletion), ensure the index is valid.
+    if (slides.length > 0 && currentSlideIndex >= slides.length) {
+      setCurrentSlideIndex(slides.length - 1);
+    } else if (slides.length === 0) {
+      setCurrentSlideIndex(0);
+    }
+  }, [slides, currentSlideIndex]);
 
   if (!activeSection) {
     return <Welcome />;
@@ -43,14 +66,18 @@ export function SlideManager() {
     }
   };
 
-  const slides = getSlidesForSection(activeSection.id);
+  const handleDeleteSlide = async () => {
+    if (!activeSection || slides.length === 0) return;
+    await deleteSlide(activeSection.id, currentSlideIndex);
+  };
+  
   const slideContent = slides[currentSlideIndex] ?? null;
 
   const renderSlideControls = () => {
     if (!isLeafNode) return null;
 
     return (
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-2">
           <Button 
             variant="outline" 
@@ -72,10 +99,33 @@ export function SlideManager() {
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
-        <Button variant="outline" size="sm" onClick={handleAddSlide}>
-          <Plus className="mr-2 h-4 w-4" />
-          Añadir Diapositiva
-        </Button>
+
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={handleAddSlide}>
+            <Plus className="mr-2 h-4 w-4" />
+            Añadir Diapositiva
+          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" size="sm" disabled={slides.length === 0}>
+                <Trash2 className="mr-2 h-4 w-4" />
+                Eliminar
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>¿Está seguro?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Esta acción no se puede deshacer. Se eliminará permanentemente la diapositiva actual.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteSlide}>Continuar</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </div>
     );
   };

@@ -12,6 +12,7 @@ interface SlidesContextType {
   getSlidesForSection: (id: string) => string[];
   updateSlideContent: (sectionId: string, slideIndex: number, html: string) => Promise<void>;
   addSlide: (sectionId: string) => Promise<number>; // Returns the new slide index
+  deleteSlide: (sectionId: string, slideIndex: number) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -96,6 +97,33 @@ export function SlidesProvider({ children }: { children: ReactNode }) {
     }
   }, [slidesBySection, toast]);
 
+  const deleteSlide = useCallback(async (sectionId: string, slideIndex: number) => {
+    const currentSlides = [...(slidesBySection[sectionId] || [])];
+    if (slideIndex < 0 || slideIndex >= currentSlides.length) {
+      console.error("Invalid slide index for deletion");
+      toast({ variant: "destructive", title: "Error", description: "Índice de diapositiva no válido para eliminar." });
+      return;
+    }
+
+    currentSlides.splice(slideIndex, 1);
+
+    try {
+      await db.saveSlidesForSection(sectionId, currentSlides);
+      setSlidesBySection(prev => ({ ...prev, [sectionId]: currentSlides }));
+      toast({
+        title: "Diapositiva Eliminada",
+        description: `La diapositiva ha sido eliminada.`,
+      });
+    } catch (error) {
+      console.error("Failed to delete slide", error);
+      toast({
+        variant: "destructive",
+        title: "Error al Eliminar",
+        description: "No se pudo eliminar la diapositiva.",
+      });
+    }
+  }, [slidesBySection, toast]);
+
 
   const value = {
     slidesBySection,
@@ -104,6 +132,7 @@ export function SlidesProvider({ children }: { children: ReactNode }) {
     getSlidesForSection,
     updateSlideContent,
     addSlide,
+    deleteSlide,
     isLoading,
   };
 
