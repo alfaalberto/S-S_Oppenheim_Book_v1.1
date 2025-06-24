@@ -100,7 +100,13 @@ export function SlideManager() {
                     <TabsTrigger value="edit">Editar HTML</TabsTrigger>
                   </TabsList>
                   <TabsContent value="view" className="flex-1 mt-4 rounded-md overflow-hidden">
-                    <SlideViewer htmlContent={slideContent} />
+                    <SlideViewer
+                      htmlContent={slideContent}
+                      onNext={() => setCurrentSlideIndex(i => i + 1)}
+                      onPrevious={() => setCurrentSlideIndex(i => i - 1)}
+                      hasNext={currentSlideIndex < slides.length - 1}
+                      hasPrevious={currentSlideIndex > 0}
+                    />
                   </TabsContent>
                   <TabsContent value="edit" className="flex-1 mt-4">
                     <SlideEditor
