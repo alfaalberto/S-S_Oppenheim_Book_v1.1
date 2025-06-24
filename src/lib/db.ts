@@ -1,13 +1,13 @@
 // This file should only be used in client components
-import type { IndexItem } from './index-data';
 
 const DB_NAME = 'signals-and-systems-db';
 const STORE_NAME = 'slides';
 const DB_VERSION = 1;
 
+// Now stores an array of HTML strings for each section
 interface SlideRecord {
   id: string;
-  html: string;
+  slides: string[]; 
 }
 
 let db: IDBDatabase;
@@ -39,33 +39,21 @@ function getDB(): Promise<IDBDatabase> {
   });
 }
 
-export async function saveSlide(id: string, html: string): Promise<void> {
+// Saves the entire array of slides for a given section ID
+export async function saveSlidesForSection(id: string, slides: string[]): Promise<void> {
   const db = await getDB();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction([STORE_NAME], 'readwrite');
     const store = transaction.objectStore(STORE_NAME);
-    const request = store.put({ id, html });
+    const request = store.put({ id, slides });
 
     request.onsuccess = () => resolve();
     request.onerror = () => reject(request.error);
   });
 }
 
-export async function getSlide(id: string): Promise<string | null> {
-  const db = await getDB();
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction([STORE_NAME], 'readonly');
-    const store = transaction.objectStore(STORE_NAME);
-    const request = store.get(id);
-
-    request.onsuccess = () => {
-      resolve(request.result ? request.result.html : null);
-    };
-    request.onerror = () => reject(request.error);
-  });
-}
-
-export async function getAllSlides(): Promise<Record<string, string>> {
+// Gets all slides from the DB, returns a record mapping section ID to slide arrays
+export async function getAllSlides(): Promise<Record<string, string[]>> {
   const db = await getDB();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction([STORE_NAME], 'readonly');
@@ -73,11 +61,11 @@ export async function getAllSlides(): Promise<Record<string, string>> {
     const request = store.getAll();
 
     request.onsuccess = () => {
-      const slides: Record<string, string> = {};
+      const slidesData: Record<string, string[]> = {};
       request.result.forEach((record: SlideRecord) => {
-        slides[record.id] = record.html;
+        slidesData[record.id] = record.slides;
       });
-      resolve(slides);
+      resolve(slidesData);
     };
     request.onerror = () => reject(request.error);
   });

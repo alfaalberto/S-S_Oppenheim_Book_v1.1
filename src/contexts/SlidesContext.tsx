@@ -6,18 +6,19 @@ import type { IndexItem } from '@/lib/index-data';
 import { useToast } from '@/hooks/use-toast';
 
 interface SlidesContextType {
-  slides: Record<string, string>;
+  slidesBySection: Record<string, string[]>;
   activeSection: IndexItem | null;
   setActiveSection: (section: IndexItem | null) => void;
-  getSlideContent: (id: string) => string | null;
-  saveSlideContent: (id: string, html: string) => Promise<void>;
+  getSlidesForSection: (id: string) => string[];
+  updateSlideContent: (sectionId: string, slideIndex: number, html: string) => Promise<void>;
+  addSlide: (sectionId: string) => Promise<number>; // Returns the new slide index
   isLoading: boolean;
 }
 
 const SlidesContext = createContext<SlidesContextType | undefined>(undefined);
 
 export function SlidesProvider({ children }: { children: ReactNode }) {
-  const [slides, setSlides] = useState<Record<string, string>>({});
+  const [slidesBySection, setSlidesBySection] = useState<Record<string, string[]>>({});
   const [activeSection, setActiveSection] = useState<IndexItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
@@ -27,7 +28,7 @@ export function SlidesProvider({ children }: { children: ReactNode }) {
       try {
         setIsLoading(true);
         const storedSlides = await db.getAllSlides();
-        setSlides(storedSlides);
+        setSlidesBySection(storedSlides);
       } catch (error) {
         console.error("Failed to load slides from DB", error);
         toast({
@@ -42,32 +43,67 @@ export function SlidesProvider({ children }: { children: ReactNode }) {
     loadSlides();
   }, [toast]);
 
-  const getSlideContent = useCallback((id: string) => slides[id] || null, [slides]);
+  const getSlidesForSection = useCallback((id: string) => slidesBySection[id] || [], [slidesBySection]);
 
-  const saveSlideContent = useCallback(async (id: string, html: string) => {
+  const updateSlideContent = useCallback(async (sectionId: string, slideIndex: number, html: string) => {
+    const currentSlides = [...(slidesBySection[sectionId] || [])];
+    if (slideIndex < 0 || slideIndex >= currentSlides.length) {
+      console.error("Invalid slide index");
+      toast({ variant: "destructive", title: "Error", description: "Índice de diapositiva no válido." });
+      return;
+    }
+    
+    currentSlides[slideIndex] = html;
+
     try {
-      await db.saveSlide(id, html);
-      setSlides(prevSlides => ({ ...prevSlides, [id]: html }));
-       toast({
+      await db.saveSlidesForSection(sectionId, currentSlides);
+      setSlidesBySection(prev => ({ ...prev, [sectionId]: currentSlides }));
+      toast({
         title: "Guardado",
-        description: `La diapositiva para la sección ${id} se guardó correctamente.`,
+        description: `La diapositiva ${slideIndex + 1} de la sección ${sectionId} se guardó correctamente.`,
       });
     } catch (error) {
-       console.error("Failed to save slide", error);
-       toast({
+      console.error("Failed to save slide", error);
+      toast({
         variant: "destructive",
         title: "Error al Guardar",
         description: "No se pudo guardar la diapositiva.",
       });
     }
-  }, [toast]);
+  }, [slidesBySection, toast]);
+
+  const addSlide = useCallback(async (sectionId: string) => {
+    const currentSlides = [...(slidesBySection[sectionId] || [])];
+    const newSlideHtml = '<h1>Nueva Diapositiva</h1><p>Empiece a editar...</p>';
+    const newSlides = [...currentSlides, newSlideHtml];
+
+    try {
+      await db.saveSlidesForSection(sectionId, newSlides);
+      setSlidesBySection(prev => ({ ...prev, [sectionId]: newSlides }));
+      toast({
+        title: "Diapositiva Añadida",
+        description: `Se ha añadido una nueva diapositiva a la sección ${sectionId}.`,
+      });
+      return newSlides.length - 1; // Return new index
+    } catch (error) {
+      console.error("Failed to add slide", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "No se pudo añadir la nueva diapositiva.",
+      });
+      return -1;
+    }
+  }, [slidesBySection, toast]);
+
 
   const value = {
-    slides,
+    slidesBySection,
     activeSection,
     setActiveSection,
-    getSlideContent,
-    saveSlideContent,
+    getSlidesForSection,
+    updateSlideContent,
+    addSlide,
     isLoading,
   };
 
