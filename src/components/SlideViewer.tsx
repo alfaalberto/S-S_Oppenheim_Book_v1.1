@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
@@ -49,20 +50,18 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     <html>
       <head>
         <style>
-          html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+          html {
             box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            -webkit-text-size-adjust: 100%;
           }
           *, *:before, *:after {
             box-sizing: inherit;
           }
           body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.5;
+            margin: 0;
             background-color: white;
-            overflow-y: auto; /* Allow vertical scrolling */
           }
           .content-wrapper {
             max-width: 1200px;
