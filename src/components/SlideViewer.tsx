@@ -43,6 +43,39 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
       }
     }
   };
+  
+  const styledHtmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: white;
+          }
+          body {
+            overflow-y: auto;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+          }
+          .content-wrapper {
+            max-width: 100%;
+            width: 100%;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="content-wrapper">
+          ${htmlContent || ''}
+        </div>
+      </body>
+    </html>
+  `;
 
   if (!htmlContent) {
     return (
@@ -59,7 +92,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
   return (
     <div ref={containerRef} className="relative h-full w-full bg-background group">
       <iframe
-        srcDoc={htmlContent}
+        srcDoc={styledHtmlContent}
         title="Slide Content"
         sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
         className="w-full h-full border-0 rounded-lg bg-white"
