@@ -101,7 +101,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
   }
 
   return (
-    <div ref={containerRef} className="relative h-full w-full bg-background group overflow-auto">
+    <div ref={containerRef} className="relative h-full w-full bg-background group overflow-auto px-6">
       <iframe
         srcDoc={styledHtmlContent}
         title="Slide Content"
