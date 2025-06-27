@@ -1,7 +1,9 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  output: 'export', // Habilita exportación estática para GitHub Pages
+  output: 'export',
+  // assetPrefix: '/S-S_Oppenheim_Book_v1.1',
+  // basePath: '/S-S_Oppenheim_Book_v1.1',
   typescript: {
     ignoreBuildErrors: true,
   },

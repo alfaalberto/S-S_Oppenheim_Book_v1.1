@@ -1,0 +1,5 @@
+# Archivo requerido solo para validación en despliegue automatizado.
+# No afecta el funcionamiento en Vercel.
+[build]
+command = "next build"
+publish = ".next"

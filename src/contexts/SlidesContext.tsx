@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import * as db from '@/lib/db';
+import * as db from '@/lib/firestoreSlides';
 import type { IndexItem } from '@/lib/index-data';
 import { useToast } from '@/hooks/use-toast';
 
