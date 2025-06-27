@@ -69,21 +69,23 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
           body {
             margin: 0;
             padding: 0;
-            background-color: white;
-            /* Allow body to grow with its content */
-            height: auto; 
-            min-height: 100%;
+            background-color: #111827; /* Tailwind bg-neutral-900 */
+            color: #e5e7eb; /* Tailwind text-neutral-200 */
+            height: 100vh;
+            min-height: 100vh;
+            width: 100vw;
+            min-width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
           /* Wrapper for aesthetics */
-          .content-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 4rem; /* More padding on the sides */
-          }
+          
         </style>
       </head>
       <body>
-        <div class="content-wrapper">
+        <div style="width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;">
           ${htmlContent || ''}
         </div>
       </body>
