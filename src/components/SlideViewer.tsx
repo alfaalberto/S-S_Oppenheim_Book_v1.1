@@ -101,12 +101,12 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
   }
 
   return (
-    <div ref={containerRef} className="relative h-full w-full bg-background group">
+    <div ref={containerRef} className="relative h-full w-full bg-background group overflow-auto">
       <iframe
         srcDoc={styledHtmlContent}
         title="Slide Content"
         sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-        className="w-full h-full border-0 rounded-lg bg-white"
+        className="w-full h-full border-0 rounded-lg bg-white overflow-auto"
       />
       
       <div className="absolute top-2 right-2 z-10">
