@@ -74,16 +74,14 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
             min-height: 100%;
             min-width: 100%;
             box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            overflow: auto;
           }
           /* Wrapper for aesthetics */
           
         </style>
       </head>
       <body>
-        <div style="min-width:100%;min-height:100%;display:flex;align-items:center;justify-content:center;">
+        <div style="min-width:100%;min-height:100%;">
           ${htmlContent || ''}
         </div>
       </body>

@@ -102,11 +102,11 @@ export function AppLayout() {
             </Tooltip>
           </TooltipProvider>
         </header>
-        <ScrollArea className="flex-1">
+        <ScrollArea className="flex-1 overflow-y-auto h-screen min-h-screen">
           <InteractiveIndex onSelect={() => {}} />
         </ScrollArea>
       </aside>
-      <main className="flex-1 flex flex-col items-center justify-center overflow-auto p-0 m-0 w-full h-full">
+      <main className="flex-1 flex flex-col items-center justify-center overflow-y-auto h-screen min-h-screen p-0 m-0 w-full">
         <SlideManager />
       </main>
     </div>
