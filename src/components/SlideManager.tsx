@@ -167,25 +167,25 @@ export function SlideManager() {
   };
 
   return (
-    <div className="h-full w-full bg-muted/20 p-4 overflow-y-auto">
-      <Card className="h-full w-full flex flex-col border-0 shadow-none bg-card">
-        <CardHeader>
+    <div className="h-full w-full bg-muted/20 flex items-center justify-center overflow-y-auto p-0 m-0">
+      <Card className="h-full w-full flex flex-col border-0 shadow-none bg-card p-0 m-0">
+        <CardHeader className="p-4">
           <CardTitle className="font-headline text-2xl text-primary">{activeSection.title}</CardTitle>
           <CardDescription>
             ID de sección: {activeSection.id}
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex-1 flex flex-col min-h-0">
+        <CardContent className="flex-1 flex flex-col min-h-0 p-0 m-0 w-full h-full">
           {isLeafNode ? (
             <>
               {renderSlideControls()}
               {slides.length > 0 ? (
-                <Tabs defaultValue="view" className="flex-1 flex flex-col">
+                <Tabs defaultValue="view" className="flex-1 flex flex-col w-full h-full">
                   <TabsList className="self-start">
                     <TabsTrigger value="view">Visualizar</TabsTrigger>
                     <TabsTrigger value="edit">Editar HTML</TabsTrigger>
                   </TabsList>
-                  <TabsContent value="view" className="flex-1 mt-4 rounded-md overflow-hidden">
+                  <TabsContent value="view" className="flex-1 mt-4 rounded-md overflow-hidden w-full h-full flex items-center justify-center p-0 m-0">
                     <SlideViewer
                       htmlContent={slideContent}
                       onNext={() => setCurrentSlideIndex(i => i + 1)}
@@ -194,7 +194,7 @@ export function SlideManager() {
                       hasPrevious={currentSlideIndex > 0}
                     />
                   </TabsContent>
-                  <TabsContent value="edit" className="flex-1 mt-4">
+                  <TabsContent value="edit" className="flex-1 mt-4 w-full h-full">
                     <SlideEditor
                       initialContent={slideContent}
                       onSave={handleSave}
@@ -202,7 +202,7 @@ export function SlideManager() {
                   </TabsContent>
                 </Tabs>
               ) : (
-                <div className="flex flex-col items-center justify-center h-full rounded-lg border-2 border-dashed border-border text-muted-foreground text-center p-8">
+                <div className="flex flex-col items-center justify-center h-full rounded-lg border-2 border-dashed border-border text-muted-foreground text-center p-8 w-full">
                     <FilePlus className="mx-auto h-12 w-12" />
                     <h3 className="mt-4 text-lg font-medium">Esta sección no tiene diapositivas</h3>
                     <p className="mt-1 text-sm">Haga clic en el botón de abajo para empezar a añadir contenido.</p>
