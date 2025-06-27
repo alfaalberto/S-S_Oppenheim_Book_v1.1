@@ -81,7 +81,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         </style>
       </head>
       <body>
-        <div style="min-width:100%;min-height:100%;">
+        <div style="min-width:100%;min-height:100%;overflow:auto;">
           ${htmlContent || ''}
         </div>
       </body>

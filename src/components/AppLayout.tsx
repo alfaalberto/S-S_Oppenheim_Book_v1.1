@@ -78,7 +78,7 @@ export function AppLayout() {
 
   return (
     <div className="flex h-screen w-screen bg-background text-foreground">
-      <aside className="min-w-[280px] max-w-[340px] w-full sm:w-[320px] md:w-[340px] border-r border-border flex flex-col">
+      <aside className="min-w-[280px] max-w-[340px] w-full sm:w-[320px] md:w-[340px] border-r border-border flex flex-col h-screen min-h-screen overflow-y-auto">
         <header className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-3">
             <BookOpen className="w-8 h-8 text-primary" />
