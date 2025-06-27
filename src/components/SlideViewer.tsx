@@ -50,40 +50,54 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     <html>
       <head>
         <style>
-          /* Basic Reset & Font Styles */
-          html {
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            -webkit-text-size-adjust: 100%;
-            
-            /* --- KEY CHANGE FOR SCROLLING --- */
-            /* The html element will be the scroll container */
-            height: 100%; 
-            overflow-y: auto; /* Show scrollbar if content overflows vertically */
-            overflow-x: hidden; /* Prevent horizontal scroll */
-          }
-          *, *:before, *:after {
-            box-sizing: inherit;
-          }
-          body {
+          html, body {
+            width: 100vw;
+            height: 100vh;
             margin: 0;
             padding: 0;
-            background-color: #111827; /* Tailwind bg-neutral-900 */
-            color: #e5e7eb; /* Tailwind text-neutral-200 */
-            min-height: 100%;
-            min-width: 100%;
+            background: #111827;
+            color: #e5e7eb;
             box-sizing: border-box;
-            overflow: auto;
+            overflow: hidden;
           }
-          /* Wrapper for aesthetics */
-          
+          #fit-wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+          }
+          #fit-content {
+            display: inline-block;
+            transform-origin: top left;
+          }
         </style>
       </head>
       <body>
-        <div style="min-width:100%;min-height:100%;overflow:auto;">
-          ${htmlContent || ''}
+        <div id="fit-wrapper">
+          <div id="fit-content">
+            ${htmlContent || ''}
+          </div>
         </div>
+        <script>
+          function fitContent() {
+            var wrapper = document.getElementById('fit-wrapper');
+            var content = document.getElementById('fit-content');
+            if (!wrapper || !content) return;
+            // Reset scale
+            content.style.transform = 'scale(1)';
+            // Get real sizes
+            var ww = wrapper.clientWidth;
+            var wh = wrapper.clientHeight;
+            var cw = content.scrollWidth;
+            var ch = content.scrollHeight;
+            var scale = Math.min(ww / cw, wh / ch, 1);
+            content.style.transform = 'scale(' + scale + ')';
+          }
+          window.addEventListener('resize', fitContent);
+          setTimeout(fitContent, 10);
+        </script>
       </body>
     </html>
   `;
