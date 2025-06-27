@@ -77,8 +77,8 @@ export function AppLayout() {
   }
 
   return (
-    <div className="flex h-screen bg-background text-foreground">
-      <aside className="w-[380px] flex-shrink-0 border-r border-border flex flex-col">
+    <div className="flex h-screen w-screen bg-background text-foreground">
+      <aside className="min-w-[280px] max-w-[340px] w-full sm:w-[320px] md:w-[340px] border-r border-border flex flex-col">
         <header className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-3">
             <BookOpen className="w-8 h-8 text-primary" />
@@ -106,7 +106,7 @@ export function AppLayout() {
           <InteractiveIndex onSelect={() => {}} />
         </ScrollArea>
       </aside>
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col items-center justify-center overflow-auto p-0 m-0 w-full h-full">
         <SlideManager />
       </main>
     </div>
