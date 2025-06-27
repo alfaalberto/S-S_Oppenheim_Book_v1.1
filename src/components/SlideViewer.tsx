@@ -71,11 +71,9 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
             padding: 0;
             background-color: #111827; /* Tailwind bg-neutral-900 */
             color: #e5e7eb; /* Tailwind text-neutral-200 */
-            height: 100vh;
-            min-height: 100vh;
-            width: 100vw;
-            min-width: 100vw;
-            overflow: hidden;
+            min-height: 100%;
+            min-width: 100%;
+            box-sizing: border-box;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -85,7 +83,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         </style>
       </head>
       <body>
-        <div style="width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;">
+        <div style="min-width:100%;min-height:100%;display:flex;align-items:center;justify-content:center;">
           ${htmlContent || ''}
         </div>
       </body>
