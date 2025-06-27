@@ -1,6 +1,12 @@
 // Proveedor de contexto para MathJax en Next.js
 import { useEffect } from 'react';
 
+declare global {
+  interface Window {
+    MathJax?: any;
+  }
+}
+
 export function MathJaxProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window !== 'undefined' && !window.MathJax) {

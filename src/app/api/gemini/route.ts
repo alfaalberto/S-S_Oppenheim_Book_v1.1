@@ -1,0 +1,39 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST(req: NextRequest) {
+  const { html } = await req.json();
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: 'Gemini API Key not set' }, { status: 500 });
+  }
+
+  // Prepara el prompt para Gemini
+  const prompt = `Corrige y mejora el siguiente código HTML para que sea profesional, académico, y renderice bien ecuaciones, tablas y figuras. Si hay ecuaciones en LaTeX, conviértelas a MathML o HTML con MathJax. Devuelve solo el HTML corregido.\n\n${html}`;
+
+  try {
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      }),
+    });
+    let data: any = null;
+    let text = '';
+    try {
+      text = await response.text();
+      data = text ? JSON.parse(text) : null;
+    } catch (err) {
+      return NextResponse.json({ error: 'Respuesta no es JSON válido', raw: text }, { status: 500 });
+    }
+    if (!response.ok) {
+      return NextResponse.json({ error: 'Error HTTP de Gemini', status: response.status, body: data }, { status: response.status });
+    }
+    const result = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    return NextResponse.json({ html: result });
+  } catch (error) {
+    return NextResponse.json({ error: 'Error comunicando con Gemini', details: String(error) }, { status: 500 });
+  }
+}
