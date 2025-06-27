@@ -8,7 +8,7 @@ To get started, take a look at src/app/page.tsx.
 
 ## Despliegue en GitHub Pages
 
-Este proyecto está configurado para exportar el sitio Next.js como estático y publicarlo en GitHub Pages.
+Este proyecto está configurado para exportar el sitio Next.js como estático y publicarlo en GitHub Pages. A ver si jala
 
 ### Pasos para agregar nuevas diapositivas y actualizar el sitio
 
