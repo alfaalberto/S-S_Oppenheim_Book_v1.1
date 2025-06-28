@@ -2,6 +2,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
+  // --- DEBUG BLOCK INICIO ---
+  try {
+    const body = await req.json();
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'Falta GEMINI_API_KEY', debug: { apiKey: 'MISSING', env: process.env } }, { status: 500 });
+    }
+    // Aquí iría tu lógica normal de llamada a Gemini...
+    // Simula respuesta vacía:
+    // return NextResponse.json({ error: 'No se obtuvo respuesta de Gemini', debug: { apiKey: 'OK', body } }, { status: 500 });
+  } catch (e: any) {
+    return NextResponse.json({ error: 'Error en el handler', debug: { message: e.message, stack: e.stack } }, { status: 500 });
+  }
+  // --- DEBUG BLOCK FIN ---
+  // Si por alguna razón se sale del try/catch:
+  return NextResponse.json({ error: 'Fin de función sin respuesta', debug: {} }, { status: 500 });
   const { html } = await req.json();
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
