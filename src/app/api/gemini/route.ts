@@ -1,3 +1,4 @@
+// Cambio menor para forzar redeploy en Vercel
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
