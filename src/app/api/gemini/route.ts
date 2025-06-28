@@ -29,11 +29,40 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Respuesta no es JSON válido', raw: text }, { status: 500 });
     }
     if (!response.ok) {
-      return NextResponse.json({ error: 'Error HTTP de Gemini', status: response.status, body: data }, { status: response.status });
+      return NextResponse.json({
+        error: 'Error HTTP de Gemini',
+        status: response.status,
+        body: data,
+        debug: {
+          apiKey: apiKey ? apiKey.slice(0, 6) + '...' : 'undefined',
+          prompt: prompt.slice(0, 300),
+          promptLength: prompt.length,
+          raw: text,
+        }
+      }, { status: response.status });
     }
     const result = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    if (!result) {
+      return NextResponse.json({
+        error: 'Respuesta vacía de Gemini',
+        debug: {
+          apiKey: apiKey ? apiKey.slice(0, 6) + '...' : 'undefined',
+          prompt: prompt.slice(0, 300),
+          promptLength: prompt.length,
+          raw: text,
+        }
+      }, { status: 500 });
+    }
     return NextResponse.json({ html: result });
   } catch (error) {
-    return NextResponse.json({ error: 'Error comunicando con Gemini', details: String(error) }, { status: 500 });
+    return NextResponse.json({
+      error: 'Error comunicando con Gemini',
+      details: String(error),
+      debug: {
+        apiKey: apiKey ? apiKey.slice(0, 6) + '...' : 'undefined',
+        prompt: prompt.slice(0, 300),
+        promptLength: prompt.length,
+      }
+    }, { status: 500 });
   }
 }
