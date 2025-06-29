@@ -3,6 +3,7 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { MathRenderer } from './MathRenderer';
+import { HtmlWithKatex } from './HtmlWithKatex';
 import { Button } from '@/components/ui/button';
 import { Expand, Shrink, Code, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -63,10 +64,9 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
   return (
     <div ref={containerRef} className="relative h-full w-full bg-background group overflow-auto px-6">
       {htmlContent && (htmlContent.trim().startsWith('<!DOCTYPE html') || htmlContent.trim().startsWith('<html')) ? (
-        <div
-          className="w-full h-full border-0 rounded-lg bg-white overflow-auto p-6 prose prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
+        <div className="w-full h-full border-0 rounded-lg bg-white overflow-auto p-6 prose prose-invert max-w-none">
+          <HtmlWithKatex html={htmlContent} />
+        </div>
       ) : (
         <div className="w-full h-full border-0 rounded-lg bg-white overflow-auto p-6 prose prose-invert max-w-none">
           <MathRenderer content={htmlContent || ''} />
