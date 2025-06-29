@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
 
 // Utilidad para dividir el HTML en fragmentos de texto y expresiones LaTeX
@@ -60,15 +60,56 @@ function splitWithLatex(html: string) {
 }
 
 export function HtmlWithKatex({ html }: { html: string }) {
-  // Si es SSR, solo muestra el HTML plano
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
-    return <div dangerouslySetInnerHTML={{ __html: html }} />;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+    if (!containerRef.current) return;
+
+    // Procesar nodos de texto y reemplazar LaTeX por componentes KaTeX
+    const walk = (node: Node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent || '';
+        const regex = /\\\[(.+?)\\\]|\\\((.+?)\\\)|\$\$(.+?)\$\$|\$(.+?)\$/gs;
+        let lastIndex = 0;
+        let m;
+        const fragments: (string | JSX.Element)[] = [];
+        while ((m = regex.exec(text)) !== null) {
+          if (m.index > lastIndex) {
+            fragments.push(text.slice(lastIndex, m.index));
+          }
+          const latex = m[1] || m[2] || m[3] || m[4];
+          const isBlock = !!(m[1] || m[3]);
+          fragments.push(
+            isBlock ? (
+              <BlockMath math={latex} key={Math.random()} />
+            ) : (
+              <InlineMath math={latex} key={Math.random()} />
+            )
+          );
+          lastIndex = m.index + m[0].length;
+        }
+        if (lastIndex < text.length) {
+          fragments.push(text.slice(lastIndex));
+        }
+        if (fragments.length > 1 && node.parentNode) {
+          const span = document.createElement('span');
+          // @ts-ignore
+          ReactDOM.render(<>{fragments}</>, span);
+          node.parentNode.replaceChild(span, node);
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        Array.from(node.childNodes).forEach(walk);
+      }
+    };
+    walk(containerRef.current);
+  }, [html]);
+
+  // SSR: solo renderiza HTML plano
+  if (!hydrated) {
+    return <div ref={containerRef} dangerouslySetInnerHTML={{ __html: html }} />;
   }
-  // En el cliente, procesa el HTML y renderiza las fórmulas
-  const processed = splitWithLatex(html);
-  // Si splitWithLatex devolvió string (SSR fallback), renderiza como HTML plano
-  if (typeof processed === 'string') {
-    return <div dangerouslySetInnerHTML={{ __html: processed }} />;
-  }
-  return <>{processed}</>;
+  // Cliente: renderiza el HTML, KaTeX será procesado por el efecto
+  return <div ref={containerRef} dangerouslySetInnerHTML={{ __html: html }} />;
 }
