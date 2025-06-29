@@ -122,9 +122,31 @@ export function AppLayout() {
           </TooltipProvider>
         </header>
         {!isAnyFullscreen && (
-          <ScrollArea className="flex-1 overflow-y-auto h-screen min-h-screen">
-            <InteractiveIndex onSelect={() => {}} />
-          </ScrollArea>
+          <div className="relative h-full">
+            <Accordion type="single" collapsible defaultValue="index-collapsed">
+              <AccordionItem value="index-collapsed">
+                <AccordionTrigger className="sticky top-0 z-30 bg-background border-b border-border px-4 py-2 text-left w-full">
+                  Índice
+                </AccordionTrigger>
+                <AccordionContent className="p-0">
+                  <ScrollArea className="flex-1 overflow-y-auto h-screen min-h-screen">
+                    <InteractiveIndex onSelect={() => {}} />
+                  </ScrollArea>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+            {/* Botón flotante para mostrar/ocultar el índice */}
+            <button
+              className="absolute top-2 left-2 z-40 bg-primary text-white rounded-full p-2 shadow-md focus:outline-none"
+              onClick={() => {
+                const trigger = document.querySelector('[data-state]');
+                if (trigger) (trigger as HTMLElement).click();
+              }}
+              aria-label="Mostrar/Ocultar índice"
+            >
+              ☰
+            </button>
+          </div>
         )}
       </aside>
       <main className="flex-1 flex flex-col items-center justify-center overflow-y-auto h-screen min-h-screen p-0 m-0 w-full">
