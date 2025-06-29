@@ -59,19 +59,15 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         min-height: 100vh;
         min-width: 100vw;
         overflow: auto;
-        display: flex;
-        align-items: stretch;
-        justify-content: stretch;
       }
       .content-wrapper {
-        width: 100vw;
-        height: 100vh;
+        width: auto;
+        height: auto;
         margin: 0;
         padding: 0;
-        display: flex;
-        align-items: stretch;
-        justify-content: stretch;
         overflow: auto;
+        max-width: none;
+        max-height: none;
       }
     </style>
     <div class="content-wrapper">
