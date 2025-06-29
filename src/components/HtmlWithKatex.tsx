@@ -3,8 +3,8 @@ import { BlockMath, InlineMath } from 'react-katex';
 import parse, { domToReact, HTMLReactParserOptions, Element, Text } from 'html-react-parser';
 
 export function HtmlWithKatex({ html }: { html: string }) {
-  // Regex para detectar expresiones LaTeX
-  const regex = /\\\[(.+?)\\\]|\\\((.+?)\\\)|\$\$(.+?)\$\$|\$(.+?)\$/gs;
+  // Regex para detectar expresiones LaTeX - versión compatible con ES2017 (sin flag 's')
+  const regex = /\\\[([\s\S]+?)\\\]|\\\(([\s\S]+?)\\\)|\$\$([\s\S]+?)\$\$|\$([\s\S]+?)\$/g;
 
   // Visitor para procesar nodos de texto y reemplazar LaTeX
   const options: HTMLReactParserOptions = {
