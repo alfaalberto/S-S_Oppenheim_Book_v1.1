@@ -46,48 +46,29 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
   };
   
   const styledHtmlContent = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <style>
-          /* Basic Reset & Font Styles */
-          html {
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            -webkit-text-size-adjust: 100%;
-            
-            /* --- KEY CHANGE FOR SCROLLING --- */
-            /* The html element will be the scroll container */
-            height: 100%; 
-            overflow-y: auto; /* Show scrollbar if content overflows vertically */
-            overflow-x: hidden; /* Prevent horizontal scroll */
-          }
-          *, *:before, *:after {
-            box-sizing: inherit;
-          }
-          body {
-            margin: 0;
-            padding: 0;
-            background-color: white;
-            /* Allow body to grow with its content */
-            height: auto; 
-            min-height: 100%;
-          }
-          /* Wrapper for aesthetics */
-          .content-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 4rem; /* More padding on the sides */
-          }
-        </style>
-      </head>
-      <body>
-        <div class="content-wrapper">
-          ${htmlContent || ''}
-        </div>
-      </body>
-    </html>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        width: 100vw;
+        min-height: 100vh;
+        height: 100%;
+        overflow: hidden;
+      }
+      .content-wrapper {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0;
+      }
+    </style>
+    <div class="content-wrapper">
+      ${htmlContent || ''}
+    </div>
   `;
 
   if (!htmlContent) {
