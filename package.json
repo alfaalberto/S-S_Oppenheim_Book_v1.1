@@ -43,6 +43,7 @@
     "firebase": "^11.9.1",
     "genkit": "^1.8.0",
     "get-nonce": "^1.0.1",
+    "html-react-parser": "^5.2.5",
     "katex": "^0.16.22",
     "lucide-react": "^0.263.0",
     "next": "15.3.3",

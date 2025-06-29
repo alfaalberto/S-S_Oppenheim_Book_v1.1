@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
+import parse, { domToReact, HTMLReactParserOptions, Element, Text } from 'html-react-parser';
 
 // Utilidad para dividir el HTML en fragmentos de texto y expresiones LaTeX
 function splitWithLatex(html: string) {
@@ -60,18 +61,15 @@ function splitWithLatex(html: string) {
 }
 
 export function HtmlWithKatex({ html }: { html: string }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [hydrated, setHydrated] = useState(false);
+  // Regex para detectar expresiones LaTeX
+  const regex = /\\\[(.+?)\\\]|\\\((.+?)\\\)|\$\$(.+?)\$\$|\$(.+?)\$/gs;
 
-  useEffect(() => {
-    setHydrated(true);
-    if (!containerRef.current) return;
-
-    // Procesar nodos de texto y reemplazar LaTeX por componentes KaTeX
-    const walk = (node: Node) => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const text = node.textContent || '';
-        const regex = /\\\[(.+?)\\\]|\\\((.+?)\\\)|\$\$(.+?)\$\$|\$(.+?)\$/gs;
+  // Visitor para procesar nodos de texto y reemplazar LaTeX
+  const options: HTMLReactParserOptions = {
+    replace: (domNode) => {
+      if (domNode.type === 'text') {
+        const node = domNode as Text;
+        const text = node.data || '';
         let lastIndex = 0;
         let m;
         const fragments: (string | JSX.Element)[] = [];
@@ -93,23 +91,14 @@ export function HtmlWithKatex({ html }: { html: string }) {
         if (lastIndex < text.length) {
           fragments.push(text.slice(lastIndex));
         }
-        if (fragments.length > 1 && node.parentNode) {
-          const span = document.createElement('span');
-          // @ts-ignore
-          ReactDOM.render(<>{fragments}</>, span);
-          node.parentNode.replaceChild(span, node);
+        if (fragments.length > 1) {
+          return <>{fragments}</>;
         }
-      } else if (node.nodeType === Node.ELEMENT_NODE) {
-        Array.from(node.childNodes).forEach(walk);
       }
-    };
-    walk(containerRef.current);
-  }, [html]);
+      return undefined;
+    },
+  };
 
-  // SSR: solo renderiza HTML plano
-  if (!hydrated) {
-    return <div ref={containerRef} dangerouslySetInnerHTML={{ __html: html }} />;
-  }
-  // Cliente: renderiza el HTML, KaTeX será procesado por el efecto
-  return <div ref={containerRef} dangerouslySetInnerHTML={{ __html: html }} />;
+  // SSR y cliente funcionan igual, no hay manipulación de DOM ni efectos
+  return <>{parse(html, options)}</>;
 }
