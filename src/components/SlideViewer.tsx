@@ -62,9 +62,16 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
 
   return (
     <div ref={containerRef} className="relative h-full w-full bg-background group overflow-auto px-6">
-      <div className="w-full h-full border-0 rounded-lg bg-white overflow-auto p-6 prose prose-invert max-w-none">
-        <MathRenderer content={htmlContent || ''} />
-      </div>
+      {htmlContent && (htmlContent.trim().startsWith('<!DOCTYPE html') || htmlContent.trim().startsWith('<html')) ? (
+        <div
+          className="w-full h-full border-0 rounded-lg bg-white overflow-auto p-6 prose prose-invert max-w-none"
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
+      ) : (
+        <div className="w-full h-full border-0 rounded-lg bg-white overflow-auto p-6 prose prose-invert max-w-none">
+          <MathRenderer content={htmlContent || ''} />
+        </div>
+      )}
       <div className="absolute top-2 right-2 z-10">
         <Button variant="outline" size="icon" onClick={toggleFullscreen} title={isFullscreen ? "Salir de pantalla completa" : "Pantalla completa"}>
           {isFullscreen ? <Shrink className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
