@@ -167,9 +167,9 @@ export function SlideManager() {
   };
 
   return (
-    <div className="h-full w-full bg-muted/20 flex items-center justify-center overflow-y-auto p-0 m-0">
-      <Card className="h-full w-full flex flex-col border-0 shadow-none bg-card p-0 m-0">
-        <CardHeader className="p-4">
+    <div className="h-full w-full bg-muted/20 flex items-center justify-center overflow-hidden p-0 m-0">
+      <Card className="h-full w-full flex flex-col border-0 shadow-none bg-card p-0 m-0 rounded-none">
+        <CardHeader className="p-4 pb-2">
           <CardTitle className="font-headline text-2xl text-primary">{activeSection.title}</CardTitle>
           <CardDescription>
             ID de sección: {activeSection.id}
@@ -185,16 +185,18 @@ export function SlideManager() {
                     <TabsTrigger value="view">Visualizar</TabsTrigger>
                     <TabsTrigger value="edit">Editar HTML</TabsTrigger>
                   </TabsList>
-                  <TabsContent value="view" className="flex-1 mt-4 rounded-md overflow-hidden w-full h-full flex items-center justify-center p-0 m-0">
-                    <SlideViewer
-                      htmlContent={slideContent}
-                      onNext={() => setCurrentSlideIndex(i => i + 1)}
-                      onPrevious={() => setCurrentSlideIndex(i => i - 1)}
-                      hasNext={currentSlideIndex < slides.length - 1}
-                      hasPrevious={currentSlideIndex > 0}
-                    />
+                  <TabsContent value="view" className="flex-1 mt-2 overflow-hidden w-full h-full flex items-center justify-center p-0 m-0">
+                    <div className="flex-1 h-full w-full flex items-center justify-center p-0 m-0">
+                      <SlideViewer
+                        htmlContent={slideContent}
+                        onNext={() => setCurrentSlideIndex(i => i + 1)}
+                        onPrevious={() => setCurrentSlideIndex(i => i - 1)}
+                        hasNext={currentSlideIndex < slides.length - 1}
+                        hasPrevious={currentSlideIndex > 0}
+                      />
+                    </div>
                   </TabsContent>
-                  <TabsContent value="edit" className="flex-1 mt-4 w-full h-full">
+                  <TabsContent value="edit" className="flex-1 mt-2 w-full h-full">
                     <SlideEditor
                       initialContent={slideContent}
                       onSave={handleSave}
