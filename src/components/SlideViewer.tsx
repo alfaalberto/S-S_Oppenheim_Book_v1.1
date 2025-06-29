@@ -84,20 +84,23 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
   }
 
   return (
-    <div ref={containerRef} className="relative h-full w-full bg-background group">
+    <div
+      ref={containerRef}
+      className={`relative bg-background group flex items-center justify-center ${isFullscreen ? 'fixed inset-0 z-50 w-screen h-screen' : 'h-full w-full'}`}
+      style={isFullscreen ? { padding: 0, margin: 0 } : {}}
+    >
       <iframe
         srcDoc={styledHtmlContent}
         title="Slide Content"
         sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-        className="w-full h-full border-0 rounded-lg bg-white"
+        className={`border-0 bg-white ${isFullscreen ? 'w-screen h-screen rounded-none' : 'w-full h-full rounded-lg'}`}
+        style={isFullscreen ? { display: 'block', margin: 0, padding: 0 } : {}}
       />
-      
       <div className="absolute top-2 right-2 z-10">
         <Button variant="outline" size="icon" onClick={toggleFullscreen} title={isFullscreen ? "Salir de pantalla completa" : "Pantalla completa"}>
           {isFullscreen ? <Shrink className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
         </Button>
       </div>
-      
       {isFullscreen && (
         <>
           <Button
