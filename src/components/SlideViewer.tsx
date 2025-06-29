@@ -58,14 +58,14 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         height: 100vh;
         min-height: 100vh;
         min-width: 100vw;
-        overflow: auto;
+        overflow: auto !important;
       }
       .content-wrapper {
         width: auto;
         height: auto;
         margin: 0;
         padding: 0;
-        overflow: auto;
+        overflow: auto !important;
         max-width: none;
         max-height: none;
       }
@@ -98,7 +98,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         title="Slide Content"
         sandbox="allow-scripts allow-popups allow-forms"
         className={`border-0 bg-white ${isFullscreen ? 'w-screen h-screen rounded-none' : 'w-full h-full rounded-none'}`}
-        style={{ width: '100%', height: '100%', display: 'block', margin: 0, padding: 0, borderRadius: 0 }}
+        style={{ width: '100%', height: '100%', display: 'block', margin: 0, padding: 0, borderRadius: 0, overflow: 'auto' }}
       />
       <div className="absolute top-2 right-2 z-10">
         <Button variant="outline" size="icon" onClick={toggleFullscreen} title={isFullscreen ? "Salir de pantalla completa" : "Pantalla completa"}>
