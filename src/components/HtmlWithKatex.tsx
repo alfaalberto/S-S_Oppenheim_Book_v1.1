@@ -15,6 +15,7 @@ export function HtmlWithKatex({ html }: { html: string }) {
         let lastIndex = 0;
         let m;
         const fragments: (string | JSX.Element)[] = [];
+        let idx = 0;
         while ((m = regex.exec(text)) !== null) {
           if (m.index > lastIndex) {
             fragments.push(text.slice(lastIndex, m.index));
@@ -23,12 +24,13 @@ export function HtmlWithKatex({ html }: { html: string }) {
           const isBlock = !!(m[1] || m[3]);
           fragments.push(
             isBlock ? (
-              <BlockMath math={latex} key={Math.random()} />
+              <BlockMath key={`latex-${idx}-${fragments.length}`} math={latex}>{latex}</BlockMath>
             ) : (
-              <InlineMath math={latex} key={Math.random()} />
+              <InlineMath key={`latex-${idx}-${fragments.length}`} math={latex}>{latex}</InlineMath>
             )
           );
           lastIndex = m.index + m[0].length;
+          idx++;
         }
         if (lastIndex < text.length) {
           fragments.push(text.slice(lastIndex));
