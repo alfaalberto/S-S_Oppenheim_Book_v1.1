@@ -41,10 +41,6 @@ export function AppLayout() {
     }
   };
 
-  // Estado para mostrar/ocultar el sidebar (índice)
-  const [showSidebar, setShowSidebar] = useState(true);
-  // Estado para saber si estamos en pantalla completa (real o fake)
-  const [isAnyFullscreen, setIsAnyFullscreen] = useState(false);
 
   // Escuchar eventos de pantalla completa y fake fullscreen
   useEffect(() => {
