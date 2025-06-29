@@ -18,6 +18,8 @@ import {
 } from '@/components/ui/tooltip';
 
 export function AppLayout() {
+  // Estado para mostrar/ocultar el sidebar (índice)
+  const [showSidebar, setShowSidebar] = useState(true);
   // Estado para saber si estamos en pantalla completa (real o fake)
   const [isAnyFullscreen, setIsAnyFullscreen] = useState(false);
 
@@ -98,7 +100,11 @@ export function AppLayout() {
 
   return (
     <div className="flex h-screen w-screen bg-background text-foreground">
-      <aside className="min-w-[300px] max-w-[400px] w-full border-r border-border flex flex-col h-screen min-h-screen overflow-y-auto">
+      <aside
+        className={`min-w-[300px] max-w-[400px] w-full border-r border-border flex flex-col h-screen min-h-screen overflow-y-auto bg-background z-40 transition-transform duration-500 ease-in-out
+        ${!showSidebar ? '-translate-x-full absolute left-0 top-0' : 'relative translate-x-0'}`}
+        style={{ pointerEvents: showSidebar ? 'auto' : 'none' }}
+      >
         <header className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-3">
             <BookOpen className="w-8 h-8 text-primary" />
@@ -136,20 +142,27 @@ export function AppLayout() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            {/* Botón flotante para mostrar/ocultar el índice */}
+            {/* Botón para ocultar el índice */}
             <button
-              className="absolute top-2 left-2 z-40 bg-primary text-white rounded-full p-2 shadow-md focus:outline-none"
-              onClick={() => {
-                const trigger = document.querySelector('[data-state]');
-                if (trigger) (trigger as HTMLElement).click();
-              }}
-              aria-label="Mostrar/Ocultar índice"
+              className="absolute top-2 right-2 z-50 bg-primary text-white rounded-full p-2 shadow-md focus:outline-none"
+              onClick={() => setShowSidebar(false)}
+              aria-label="Ocultar índice"
             >
-              ☰
+              ←
             </button>
           </div>
         )}
       </aside>
+      {/* Botón flotante para mostrar el índice, solo cuando está oculto */}
+      {!showSidebar && !isAnyFullscreen && (
+        <button
+          className="fixed top-4 left-4 z-50 bg-primary text-white rounded-full p-2 shadow-md focus:outline-none"
+          onClick={() => setShowSidebar(true)}
+          aria-label="Mostrar índice"
+        >
+          ☰
+        </button>
+      )}
       <main className="flex-1 flex flex-col items-center justify-center overflow-y-auto h-screen min-h-screen p-0 m-0 w-full">
         <SlideManager />
       </main>
