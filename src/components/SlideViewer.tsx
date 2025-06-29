@@ -2,8 +2,6 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { MathRenderer } from './MathRenderer';
-import { HtmlWithKatex } from './HtmlWithKatex';
 import { Button } from '@/components/ui/button';
 import { Expand, Shrink, Code, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -47,7 +45,50 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     }
   };
   
-
+  const styledHtmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          /* Basic Reset & Font Styles */
+          html {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            -webkit-text-size-adjust: 100%;
+            
+            /* --- KEY CHANGE FOR SCROLLING --- */
+            /* The html element will be the scroll container */
+            height: 100%; 
+            overflow-y: auto; /* Show scrollbar if content overflows vertically */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+          }
+          *, *:before, *:after {
+            box-sizing: inherit;
+          }
+          body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            /* Allow body to grow with its content */
+            height: auto; 
+            min-height: 100%;
+          }
+          /* Wrapper for aesthetics */
+          .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 4rem; /* More padding on the sides */
+          }
+        </style>
+      </head>
+      <body>
+        <div class="content-wrapper">
+          ${htmlContent || ''}
+        </div>
+      </body>
+    </html>
+  `;
 
   if (!htmlContent) {
     return (
@@ -62,21 +103,20 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
   }
 
   return (
-    <div ref={containerRef} className="relative h-full w-full bg-background group overflow-auto px-6">
-      {htmlContent && (htmlContent.trim().startsWith('<!DOCTYPE html') || htmlContent.trim().startsWith('<html')) ? (
-        <div className="w-full h-full border-0 rounded-lg bg-white overflow-auto p-6 prose prose-invert max-w-none">
-          <HtmlWithKatex html={htmlContent} />
-        </div>
-      ) : (
-        <div className="w-full h-full border-0 rounded-lg bg-white overflow-auto p-6 prose prose-invert max-w-none">
-          <MathRenderer content={htmlContent || ''} />
-        </div>
-      )}
+    <div ref={containerRef} className="relative h-full w-full bg-background group">
+      <iframe
+        srcDoc={styledHtmlContent}
+        title="Slide Content"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        className="w-full h-full border-0 rounded-lg bg-white"
+      />
+      
       <div className="absolute top-2 right-2 z-10">
         <Button variant="outline" size="icon" onClick={toggleFullscreen} title={isFullscreen ? "Salir de pantalla completa" : "Pantalla completa"}>
           {isFullscreen ? <Shrink className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
         </Button>
       </div>
+      
       {isFullscreen && (
         <>
           <Button

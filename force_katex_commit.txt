@@ -1,1 +1,0 @@
-Forzar commit para asegurar que los cambios de KaTeX y MathRenderer se suban a GitHub correctamente.
