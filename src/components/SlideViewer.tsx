@@ -13,6 +13,7 @@ interface SlideViewerProps {
   hasPrevious: boolean;
 }
 
+// Commit de prueba automático para verificar push a GitHub
 export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevious }: SlideViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
