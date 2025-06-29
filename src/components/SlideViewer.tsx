@@ -16,6 +16,16 @@ interface SlideViewerProps {
 // Commit de prueba automático para verificar push a GitHub
 import { useToast } from '@/hooks/use-toast';
 export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevious }: SlideViewerProps) {
+  const [isFakeFullscreen, setIsFakeFullscreen] = useState(false);
+
+  // Detecta si es iOS/iPadOS
+  function isIOS() {
+    return (
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document)
+    );
+  }
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -44,17 +54,9 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
   const toggleFullscreen = async () => {
     if (!containerRef.current) return;
 
-    // Check API support
-    if (!isFullscreenSupported()) {
-      if (typeof toast === 'function') {
-        toast({
-          title: 'Pantalla completa no soportada',
-          description: 'Esta función no está disponible en tu navegador o dispositivo (por ejemplo, iPad/iOS).',
-          duration: 5000,
-        });
-      } else {
-        alert('Pantalla completa no soportada en este navegador o dispositivo.');
-      }
+    // Si es iOS o no hay soporte de Fullscreen, activa fake fullscreen
+    if (!isFullscreenSupported() || isIOS()) {
+      setIsFakeFullscreen((prev) => !prev);
       return;
     }
 
@@ -70,6 +72,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
       }
     }
   };
+
   
   const styledHtmlContent = `
     <style>
@@ -116,8 +119,12 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
   return (
     <div
       ref={containerRef}
-      className={`relative bg-background group flex items-center justify-center ${isFullscreen ? 'fixed inset-0 z-50 w-screen h-screen' : 'h-full w-full'}`}
-      style={isFullscreen ? { padding: 0, margin: 0 } : {}}
+      className={`relative bg-background group flex items-center justify-center ${
+        isFullscreen || isFakeFullscreen
+          ? 'fixed inset-0 z-50 w-screen h-screen'
+          : 'h-full w-full'
+      }`}
+      style={isFullscreen || isFakeFullscreen ? { padding: 0, margin: 0 } : {}}
     >
       <iframe
         srcDoc={styledHtmlContent}
