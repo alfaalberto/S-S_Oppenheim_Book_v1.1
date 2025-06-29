@@ -55,15 +55,22 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         line-height: 1.6;
         width: 100vw;
+        height: 100vh;
         min-height: 100vh;
-        height: 100%;
+        min-width: 100vw;
         overflow: hidden;
+        display: flex;
+        align-items: stretch;
+        justify-content: stretch;
       }
       .content-wrapper {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
         padding: 0;
+        display: flex;
+        align-items: stretch;
+        justify-content: stretch;
       }
     </style>
     <div class="content-wrapper">
