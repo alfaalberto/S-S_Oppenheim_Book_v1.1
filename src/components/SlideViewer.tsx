@@ -56,7 +56,11 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
 
     // Si es iOS o no hay soporte de Fullscreen, activa fake fullscreen
     if (!isFullscreenSupported() || isIOS()) {
-      setIsFakeFullscreen((prev) => !prev);
+      setIsFakeFullscreen((prev) => {
+        const newVal = !prev;
+        window.dispatchEvent(new CustomEvent('fakefullscreen', { detail: newVal }));
+        return newVal;
+      });
       return;
     }
 
@@ -115,6 +119,13 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
       </div>
     );
   }
+
+  // Emitir evento cuando se sale de fake fullscreen
+  useEffect(() => {
+    if (!isFakeFullscreen) {
+      window.dispatchEvent(new CustomEvent('fakefullscreen', { detail: false }));
+    }
+  }, [isFakeFullscreen]);
 
   return (
     <div

@@ -7,7 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from './ui/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Tooltip,
@@ -17,6 +17,25 @@ import {
 } from '@/components/ui/tooltip';
 
 export function AppLayout() {
+  // Estado para saber si estamos en pantalla completa (real o fake)
+  const [isAnyFullscreen, setIsAnyFullscreen] = useState(false);
+
+  // Escuchar eventos de pantalla completa y fake fullscreen
+  useEffect(() => {
+    function handleFullscreenChange() {
+      setIsAnyFullscreen(!!document.fullscreenElement);
+    }
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    // Escucha evento personalizado para fake fullscreen (emitido desde SlideViewer)
+    function handleFakeFullscreen(e: CustomEvent) {
+      setIsAnyFullscreen(e.detail);
+    }
+    window.addEventListener('fakefullscreen', handleFakeFullscreen as EventListener);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      window.removeEventListener('fakefullscreen', handleFakeFullscreen as EventListener);
+    };
+  }, []);
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { toast } = useToast();
@@ -102,9 +121,11 @@ export function AppLayout() {
             </Tooltip>
           </TooltipProvider>
         </header>
-        <ScrollArea className="flex-1 overflow-y-auto h-screen min-h-screen">
-          <InteractiveIndex onSelect={() => {}} />
-        </ScrollArea>
+        {!isAnyFullscreen && (
+          <ScrollArea className="flex-1 overflow-y-auto h-screen min-h-screen">
+            <InteractiveIndex onSelect={() => {}} />
+          </ScrollArea>
+        )}
       </aside>
       <main className="flex-1 flex flex-col items-center justify-center overflow-y-auto h-screen min-h-screen p-0 m-0 w-full">
         <SlideManager />
