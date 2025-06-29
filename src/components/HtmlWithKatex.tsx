@@ -3,6 +3,10 @@ import { BlockMath, InlineMath } from 'react-katex';
 
 // Utilidad para dividir el HTML en fragmentos de texto y expresiones LaTeX
 function splitWithLatex(html: string) {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    // SSR: no procesar, solo devolver el HTML plano
+    return html;
+  }
   // Busca expresiones en $...$, $$...$$, \(...\), \[...\]
   // Solo para texto plano dentro del HTML, no dentro de atributos
   const regex = /\\\[(.+?)\\\]|\\\((.+?)\\\)|\$\$(.+?)\$\$|\$(.+?)\$/gs;
@@ -56,9 +60,15 @@ function splitWithLatex(html: string) {
 }
 
 export function HtmlWithKatex({ html }: { html: string }) {
-  // Si no hay window (SSR), solo muestra el HTML plano
-  if (typeof window === 'undefined') {
+  // Si es SSR, solo muestra el HTML plano
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
   }
-  return <>{splitWithLatex(html)}</>;
+  // En el cliente, procesa el HTML y renderiza las fórmulas
+  const processed = splitWithLatex(html);
+  // Si splitWithLatex devolvió string (SSR fallback), renderiza como HTML plano
+  if (typeof processed === 'string') {
+    return <div dangerouslySetInnerHTML={{ __html: processed }} />;
+  }
+  return <>{processed}</>;
 }
