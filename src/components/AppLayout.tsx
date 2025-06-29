@@ -124,37 +124,33 @@ export function AppLayout() {
         ${!showSidebar ? '-translate-x-full absolute left-0 top-0' : 'relative translate-x-0'}`}
         style={{ pointerEvents: showSidebar ? 'auto' : 'none' }}
       >
-        <header className="flex items-center justify-between p-4 border-b border-border">
-          {/* Botón de modo claro/oscuro */}
-          <button
-            className="mr-4 p-2 rounded-full bg-secondary shadow-sm hover:bg-primary/10 transition-colors duration-300"
-            onClick={toggleDark}
-            aria-label={isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-          >
-            {isDark ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-blue-600" />}
-          </button>
+        <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-3 border-b border-[color:hsl(var(--border))] backdrop-blur-xl bg-[hsla(var(--background),0.85)] shadow-md">
           <div className="flex items-center gap-3">
-            <BookOpen className="w-8 h-8 text-primary" />
+            {/* Logo editorial premium */}
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[hsl(var(--accent))] shadow-lg">
+              <BookOpen className="w-6 h-6 text-[hsl(var(--primary))]" />
+            </span>
             <div>
-              <h1 className="text-xl font-bold font-headline text-foreground">
-                Señales y Sistemas
-              </h1>
-              <p className="text-sm text-muted-foreground">A. V. Oppenheim</p>
+              <h1 className="text-2xl font-extrabold font-headline text-[hsl(var(--primary))] tracking-tight leading-tight drop-shadow-sm select-none">Señales y Sistemas</h1>
+              <p className="text-sm text-[hsl(var(--primary))]/70 font-medium italic select-none">A. V. Oppenheim</p>
             </div>
           </div>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" onClick={handleSaveClick}>
-                  <Save className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Verificar guardado</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <div className="flex items-center gap-2">
+            <button
+              className="p-2 rounded-full bg-[hsl(var(--card))] border border-[hsl(var(--border))] shadow hover:bg-[hsl(var(--accent)/.15)] hover:scale-110 transition-all duration-300"
+              onClick={toggleDark}
+              aria-label={isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            >
+              <span className="inline-block transition-transform duration-300" style={{transform: isDark ? 'rotate(-20deg)' : 'rotate(0deg)'}}>
+                {isDark ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-[hsl(var(--primary))]" />}
+              </span>
+            </button>
+            <Button variant="ghost" size="icon" onClick={handleSaveClick} className="ml-1 hover:bg-[hsl(var(--accent)/.10)]">
+              <Save className="h-5 w-5 text-[hsl(var(--primary))] transition-transform duration-200 hover:scale-110" />
+            </Button>
+          </div>
         </header>
+
         {!isAnyFullscreen && (
           <div className="relative h-full">
             <Accordion type="single" collapsible defaultValue="index-collapsed">

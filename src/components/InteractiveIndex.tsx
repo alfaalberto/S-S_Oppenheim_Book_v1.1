@@ -33,26 +33,36 @@ function IndexNode({ node, level, onSelect }: IndexNodeProps) {
   return (
     <div className="w-full">
       <Button
-        variant={isActive ? 'secondary' : 'ghost'}
+        variant="ghost"
         size="sm"
         onClick={handleToggle}
-        className={cn('w-full justify-start h-auto py-2 px-3 text-left', {
-          'font-bold': isActive,
-        })}
-        style={{ paddingLeft: `${level * 1.25 + 0.75}rem` }}
+        className={cn(
+          'w-full justify-start h-auto py-2 px-3 text-left rounded-lg border transition-all duration-200',
+          {
+            'bg-[hsl(var(--primary))] border-[hsl(var(--accent))] text-[hsl(var(--accent))] font-bold shadow-md': isActive,
+            'bg-[hsl(var(--card))] border-[hsl(var(--border))] text-[hsl(var(--primary))] hover:bg-[hsl(var(--accent)/.09)] hover:border-[hsl(var(--accent))]': !isActive,
+          }
+        )}
+        style={{
+          paddingLeft: `${level * 1.25 + 0.75}rem`,
+          fontSize: level === 0 ? '1.07rem' : '1rem',
+          fontWeight: level === 0 ? 700 : 500,
+          letterSpacing: level === 0 ? '0.01em' : '0',
+        }}
       >
         {isParent ? (
           <ChevronRight
             className={cn('w-4 h-4 mr-2 shrink-0 transition-transform duration-200', {
-              'rotate-90': isOpen,
+              'rotate-90 text-[hsl(var(--accent))]': isOpen,
+              'text-[hsl(var(--border))]': !isOpen,
             })}
           />
         ) : (
-          <FileText className="w-4 h-4 mr-2 shrink-0" />
+          <FileText className="w-4 h-4 mr-2 shrink-0 text-[hsl(var(--accent))]" />
         )}
         <span className="truncate flex-1">{node.title}</span>
       </Button>
-      {isParent && isOpen && (
+      {isParent && isOpen && node.children && (
         <div className="w-full">
           {node.children.map(child => (
             <IndexNode key={child.id} node={child} level={level + 1} onSelect={onSelect} />
