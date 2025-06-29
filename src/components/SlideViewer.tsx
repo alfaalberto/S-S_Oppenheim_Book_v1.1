@@ -14,6 +14,7 @@ interface SlideViewerProps {
 }
 
 // Commit de prueba automático para verificar push a GitHub
+import { useToast } from '@/hooks/use-toast';
 export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevious }: SlideViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -38,7 +39,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     );
   }
 
-  const { toast } = require('@/components/ui/use-toast'); // fallback if not already imported
+  const { toast } = useToast();
 
   const toggleFullscreen = async () => {
     if (!containerRef.current) return;
