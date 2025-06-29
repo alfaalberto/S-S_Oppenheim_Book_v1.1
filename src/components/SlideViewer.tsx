@@ -58,7 +58,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         height: 100vh;
         min-height: 100vh;
         min-width: 100vw;
-        overflow: hidden;
+        overflow: auto;
         display: flex;
         align-items: stretch;
         justify-content: stretch;
@@ -71,6 +71,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         display: flex;
         align-items: stretch;
         justify-content: stretch;
+        overflow: auto;
       }
     </style>
     <div class="content-wrapper">
@@ -100,8 +101,8 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         srcDoc={styledHtmlContent}
         title="Slide Content"
         sandbox="allow-scripts allow-popups allow-forms"
-        className={`border-0 bg-white ${isFullscreen ? 'w-screen h-screen rounded-none' : 'w-full h-full rounded-lg'}`}
-        style={isFullscreen ? { display: 'block', margin: 0, padding: 0 } : {}}
+        className={`border-0 bg-white ${isFullscreen ? 'w-screen h-screen rounded-none' : 'w-full h-full rounded-none'}`}
+        style={{ width: '100%', height: '100%', display: 'block', margin: 0, padding: 0, borderRadius: 0 }}
       />
       <div className="absolute top-2 right-2 z-10">
         <Button variant="outline" size="icon" onClick={toggleFullscreen} title={isFullscreen ? "Salir de pantalla completa" : "Pantalla completa"}>
