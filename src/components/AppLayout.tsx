@@ -1,6 +1,6 @@
 'use client';
 
-import { BookOpen, Menu, Save } from 'lucide-react';
+import { BookOpen, Menu, Save, Sun, Moon } from 'lucide-react';
 import { InteractiveIndex } from '@/components/InteractiveIndex';
 import { SlideManager } from '@/components/SlideManager';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -18,6 +18,29 @@ import {
 } from '@/components/ui/tooltip';
 
 export function AppLayout() {
+  // Estado para mostrar/ocultar el sidebar (índice)
+  const [showSidebar, setShowSidebar] = useState(true);
+  // Estado para saber si estamos en pantalla completa (real o fake)
+  const [isAnyFullscreen, setIsAnyFullscreen] = useState(false);
+  // Estado para modo oscuro/claro
+  const [isDark, setIsDark] = useState(() =>
+    typeof window !== 'undefined'
+      ? document.documentElement.classList.contains('dark')
+      : false
+  );
+
+  // Alternar modo oscuro
+  const toggleDark = () => {
+    const html = document.documentElement;
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark');
+      setIsDark(false);
+    } else {
+      html.classList.add('dark');
+      setIsDark(true);
+    }
+  };
+
   // Estado para mostrar/ocultar el sidebar (índice)
   const [showSidebar, setShowSidebar] = useState(true);
   // Estado para saber si estamos en pantalla completa (real o fake)
@@ -106,6 +129,14 @@ export function AppLayout() {
         style={{ pointerEvents: showSidebar ? 'auto' : 'none' }}
       >
         <header className="flex items-center justify-between p-4 border-b border-border">
+          {/* Botón de modo claro/oscuro */}
+          <button
+            className="mr-4 p-2 rounded-full bg-secondary shadow-sm hover:bg-primary/10 transition-colors duration-300"
+            onClick={toggleDark}
+            aria-label={isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+          >
+            {isDark ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-blue-600" />}
+          </button>
           <div className="flex items-center gap-3">
             <BookOpen className="w-8 h-8 text-primary" />
             <div>
