@@ -92,7 +92,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
       <iframe
         srcDoc={styledHtmlContent}
         title="Slide Content"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        sandbox="allow-scripts allow-popups allow-forms"
         className={`border-0 bg-white ${isFullscreen ? 'w-screen h-screen rounded-none' : 'w-full h-full rounded-lg'}`}
         style={isFullscreen ? { display: 'block', margin: 0, padding: 0 } : {}}
       />
