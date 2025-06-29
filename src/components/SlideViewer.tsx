@@ -29,8 +29,32 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     };
   }, []);
 
+  // Helper to check Fullscreen API support
+  function isFullscreenSupported() {
+    const el = document.createElement('div') as any;
+    return (
+      !!(el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen)
+    );
+  }
+
+  const { toast } = require('@/components/ui/use-toast'); // fallback if not already imported
+
   const toggleFullscreen = async () => {
     if (!containerRef.current) return;
+
+    // Check API support
+    if (!isFullscreenSupported()) {
+      if (typeof toast === 'function') {
+        toast({
+          title: 'Pantalla completa no soportada',
+          description: 'Esta función no está disponible en tu navegador o dispositivo (por ejemplo, iPad/iOS).',
+          duration: 5000,
+        });
+      } else {
+        alert('Pantalla completa no soportada en este navegador o dispositivo.');
+      }
+      return;
+    }
 
     if (!document.fullscreenElement) {
       try {
