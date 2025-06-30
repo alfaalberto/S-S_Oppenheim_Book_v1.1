@@ -5,7 +5,6 @@
 
 /* Si no usas Tailwind, puedes eliminar estas líneas */
 
- f88d9b738927a938f3628dc9379a31eccf4825c7
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -220,7 +219,6 @@ body {
     box-shadow: 0 4px 24px 0 rgba(60,60,120,0.12);
   }
 
- f88d9b738927a938f3628dc9379a31eccf4825c7
   .dark {
     --background: 0 0% 7%;
     --foreground: 0 0% 88%;
@@ -257,3 +255,5 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Commit de prueba para validar sincronización con GitHub */
