@@ -51,7 +51,11 @@ export async function POST(req: NextRequest) {
         status: response.status,
         body: data,
         debug: {
+<<<<<<< HEAD
           apiKey: apiKey!.slice(0, 6) + '...',
+=======
+          apiKey: apiKey ? apiKey.slice(0, 6) + '...' : 'undefined',
+>>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
           prompt: prompt.slice(0, 300),
           promptLength: prompt.length,
           raw: text,
@@ -63,7 +67,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         error: 'Respuesta vacía de Gemini',
         debug: {
+<<<<<<< HEAD
           apiKey: apiKey!.slice(0, 6) + '...',
+=======
+          apiKey: apiKey ? apiKey.slice(0, 6) + '...' : 'undefined',
+>>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
           prompt: prompt.slice(0, 300),
           promptLength: prompt.length,
           raw: text,
@@ -76,7 +84,11 @@ export async function POST(req: NextRequest) {
       error: 'Error comunicando con Gemini',
       details: String(error),
       debug: {
+<<<<<<< HEAD
         apiKey: apiKey!.slice(0, 6) + '...',
+=======
+        apiKey: apiKey ? apiKey.slice(0, 6) + '...' : 'undefined',
+>>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
         prompt: prompt.slice(0, 300),
         promptLength: prompt.length,
       }

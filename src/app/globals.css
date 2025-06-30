@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+<<<<<<< HEAD
+=======
+/* Si no usas Tailwind, puedes eliminar estas líneas */
+
+>>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -8,6 +13,7 @@ body {
 
 @layer base {
   :root {
+<<<<<<< HEAD
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -34,6 +40,188 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+=======
+    --background: 44 41% 96%; /* crema premium */
+    --foreground: 222 47% 11%; /* navy profundo */
+    --card: 0 0% 100%; /* blanco puro */
+    --card-foreground: 222 47% 11%;
+    --popover: 44 41% 99%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 221 39% 23%; /* azul navy premium */
+    --primary-foreground: 44 41% 96%;
+    --secondary: 44 41% 92%; /* crema más oscuro */
+    --secondary-foreground: 221 39% 23%;
+    --muted: 44 41% 90%;
+    --muted-foreground: 221 39% 40%;
+    --accent: 43 89% 55%; /* dorado premium */
+    --accent-foreground: 221 39% 23%;
+    --destructive: 0 80% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 43 89% 70%; /* borde dorado suave */
+    --input: 44 41% 90%;
+    --ring: 43 89% 55%;
+    --radius: 0.75rem;
+  }
+
+  body {
+    background: linear-gradient(135deg, hsl(var(--background)), hsl(var(--secondary)) 80%);
+    color: hsl(var(--foreground));
+    font-family: 'Inter', 'Segoe UI', Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card, .bg-card {
+    background: hsl(var(--card));
+    border-radius: var(--radius);
+    box-shadow: 0 2px 12px 0 rgba(60, 60, 120, 0.06), 0 1.5px 5px 0 rgba(60,60,120,0.03);
+    border: 1.5px solid hsl(var(--border));
+  }
+
+  .sidebar, aside {
+    background: linear-gradient(120deg, hsl(var(--secondary)) 70%, hsl(var(--background)) 100%);
+    border-right: 2px solid hsl(var(--border));
+    box-shadow: 2px 0 16px 0 rgba(60,60,120,0.04);
+  }
+
+  .btn, button, .primary {
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)) 90%);
+    color: hsl(var(--primary-foreground));
+    border-radius: var(--radius);
+    border: none;
+    box-shadow: 0 1px 4px 0 rgba(60,60,120,0.07);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .btn:hover, button:hover, .primary:hover {
+    background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)) 90%);
+    box-shadow: 0 2px 12px 0 rgba(60,60,120,0.12);
+  }
+
+  .accordion, .AccordionItem {
+    background: hsl(var(--card));
+    border-radius: var(--radius);
+    border: 1.5px solid hsl(var(--border));
+    box-shadow: 0 1px 6px 0 rgba(60,60,120,0.06);
+    margin-bottom: 0.5rem;
+  }
+
+  .AccordionTrigger {
+    background: hsl(var(--card));
+    color: hsl(var(--primary));
+    border-bottom: 1.5px solid hsl(var(--border));
+    font-weight: 700;
+    padding: 0.9rem 1.2rem;
+    cursor: pointer;
+    border-radius: var(--radius) var(--radius) 0 0;
+    transition: background 0.18s, color 0.18s;
+    font-size: 1.1rem;
+    letter-spacing: 0.01em;
+  }
+  .AccordionTrigger:hover {
+    background: hsl(var(--accent) / 0.09);
+    color: hsl(var(--accent));
+  }
+
+  .AccordionContent {
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    padding: 0.5rem 1.2rem;
+    border-radius: 0 0 var(--radius) var(--radius);
+    font-size: 1.02rem;
+  }
+
+  .shadow-sm {
+    box-shadow: 0 1px 4px 0 rgba(60,60,120,0.04);
+  }
+
+  .shadow-md {
+    box-shadow: 0 2px 12px 0 rgba(60,60,120,0.08);
+  }
+
+  .shadow-lg {
+    box-shadow: 0 4px 24px 0 rgba(60,60,120,0.12);
+  }
+
+  /* Eliminadas reglas @apply inválidas */
+
+  body {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card, .bg-card {
+    background: hsl(var(--card));
+    border-radius: var(--radius);
+    box-shadow: 0 2px 12px 0 rgba(60, 60, 120, 0.08), 0 1.5px 5px 0 rgba(60,60,120,0.04);
+    border: 1px solid hsl(var(--border));
+  }
+
+  .sidebar, aside {
+    background: hsl(var(--secondary));
+    border-right: 1px solid hsl(var(--border));
+    box-shadow: 2px 0 8px 0 rgba(60,60,120,0.03);
+  }
+
+  .btn, button, .primary {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-radius: var(--radius);
+    border: none;
+    box-shadow: 0 1px 3px 0 rgba(60,60,120,0.08);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .btn:hover, button:hover, .primary:hover {
+    background: hsl(var(--primary) / 0.95);
+    box-shadow: 0 2px 8px 0 rgba(60,60,120,0.10);
+  }
+
+  .accordion, .AccordionItem {
+    background: hsl(var(--card));
+    border-radius: var(--radius);
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 1px 4px 0 rgba(60,60,120,0.04);
+    margin-bottom: 0.5rem;
+  }
+
+  .AccordionTrigger {
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+    border-bottom: 1px solid hsl(var(--border));
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-radius: var(--radius) var(--radius) 0 0;
+    transition: background 0.2s;
+  }
+  .AccordionTrigger:hover {
+    background: hsl(var(--primary) / 0.08);
+  }
+
+  .AccordionContent {
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+
+  .shadow-sm {
+    box-shadow: 0 1px 4px 0 rgba(60,60,120,0.04);
+  }
+
+  .shadow-md {
+    box-shadow: 0 2px 12px 0 rgba(60,60,120,0.08);
+  }
+
+  .shadow-lg {
+    box-shadow: 0 4px 24px 0 rgba(60,60,120,0.12);
+  }
+
+>>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
   .dark {
     --background: 0 0% 7%;
     --foreground: 0 0% 88%;

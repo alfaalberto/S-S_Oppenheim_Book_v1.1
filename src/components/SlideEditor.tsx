@@ -70,8 +70,13 @@ export function SlideEditor({ initialContent, onSave }: SlideEditorProps) {
   };
 
   return (
+<<<<<<< HEAD
     <div className="flex flex-col h-full gap-4">
       <div className="flex-1 flex flex-col">
+=======
+    <div className="flex flex-col h-full w-full p-0 m-0 gap-2">
+      <div className="flex-1 flex flex-col p-0 m-0">
+>>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
         <Label htmlFor="html-editor" className="mb-2 font-headline">
           Editor de Contenido HTML
         </Label>
@@ -80,11 +85,19 @@ export function SlideEditor({ initialContent, onSave }: SlideEditorProps) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Pegue aquí el código HTML de la diapositiva..."
+<<<<<<< HEAD
           className="flex-1 font-mono text-sm resize-none"
           aria-label="Editor de HTML"
         />
       </div>
       <div className="flex flex-col sm:flex-row gap-2 justify-end">
+=======
+          className="flex-1 min-h-0 font-mono text-sm resize-none p-2 m-0"
+          aria-label="Editor de HTML"
+        />
+      </div>
+      <div className="flex flex-col sm:flex-row gap-2 justify-end p-0 m-0">
+>>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
         <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".html" className="hidden" />
         <Button variant="secondary" onClick={handleImprove} disabled={isImproving || isSaving}>
           <Sparkles className="mr-2 h-4 w-4 text-yellow-500" />
