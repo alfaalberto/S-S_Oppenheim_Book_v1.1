@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         status: response.status,
         body: data,
         debug: {
-          apiKey: apiKey!.slice(0, 6) + '...',
+          apiKey: apiKey ? apiKey.slice(0, 6) + '...' : 'undefined',
           prompt: prompt.slice(0, 300),
           promptLength: prompt.length,
           raw: text,
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         error: 'Respuesta vacía de Gemini',
         debug: {
-          apiKey: apiKey!.slice(0, 6) + '...',
+          apiKey: apiKey ? apiKey.slice(0, 6) + '...' : 'undefined',
           prompt: prompt.slice(0, 300),
           promptLength: prompt.length,
           raw: text,
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
       error: 'Error comunicando con Gemini',
       details: String(error),
       debug: {
-        apiKey: apiKey!.slice(0, 6) + '...',
+        apiKey: apiKey ? apiKey.slice(0, 6) + '...' : 'undefined',
         prompt: prompt.slice(0, 300),
         promptLength: prompt.length,
       }
