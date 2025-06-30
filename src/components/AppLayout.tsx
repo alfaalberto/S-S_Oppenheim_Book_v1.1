@@ -1,4 +1,5 @@
 'use client';
+// Commit forzado por Cascade para test de trigger Vercel
 
 import { BookOpen, Menu, Save, Sun, Moon } from 'lucide-react';
 import { InteractiveIndex } from '@/components/InteractiveIndex';
