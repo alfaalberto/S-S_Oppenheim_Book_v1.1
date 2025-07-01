@@ -234,11 +234,11 @@ const MenubarShortcut = ({
     />
   )
 }
-<<<<<<< HEAD
+ HEAD
 MenubarShortcut.displayname = "MenubarShortcut"
-=======
+
 MenubarShortcut.displayName = "MenubarShortcut"
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
+ f88d9b738927a938f3628dc9379a31eccf4825c7
 
 export {
   Menubar,

@@ -1,22 +1,14 @@
 'use client';
 
-<<<<<<< HEAD
-import { BookOpen, Menu, Save } from 'lucide-react';
-=======
 import { BookOpen, Menu, Save, Sun, Moon } from 'lucide-react';
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
 import { InteractiveIndex } from '@/components/InteractiveIndex';
 import { SlideManager } from '@/components/SlideManager';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from './ui/button';
-<<<<<<< HEAD
-import { useState } from 'react';
-=======
 import { useState, useEffect } from 'react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
 import { useToast } from '@/hooks/use-toast';
 import {
   Tooltip,
@@ -26,8 +18,6 @@ import {
 } from '@/components/ui/tooltip';
 
 export function AppLayout() {
-<<<<<<< HEAD
-=======
   // Estado para mostrar/ocultar el sidebar (índice)
   const [showSidebar, setShowSidebar] = useState(true);
   // Estado para saber si estamos en pantalla completa (real o fake)
@@ -51,7 +41,6 @@ export function AppLayout() {
     }
   };
 
-
   // Escuchar eventos de pantalla completa y fake fullscreen
   useEffect(() => {
     function handleFullscreenChange() {
@@ -68,7 +57,7 @@ export function AppLayout() {
       window.removeEventListener('fakefullscreen', handleFakeFullscreen as EventListener);
     };
   }, []);
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
+
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { toast } = useToast();
@@ -130,36 +119,6 @@ export function AppLayout() {
 
   return (
     <div className="flex h-screen w-screen bg-background text-foreground">
-<<<<<<< HEAD
-      <aside className="min-w-[300px] max-w-[400px] w-full border-r border-border flex flex-col h-screen min-h-screen overflow-y-auto">
-        <header className="flex items-center justify-between p-4 border-b border-border">
-          <div className="flex items-center gap-3">
-            <BookOpen className="w-8 h-8 text-primary" />
-            <div>
-              <h1 className="text-xl font-bold font-headline text-foreground">
-                Señales y Sistemas
-              </h1>
-              <p className="text-sm text-muted-foreground">A. V. Oppenheim</p>
-            </div>
-          </div>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" onClick={handleSaveClick}>
-                  <Save className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Verificar guardado</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </header>
-        <ScrollArea className="flex-1 overflow-y-auto h-screen min-h-screen">
-          <InteractiveIndex onSelect={() => {}} />
-        </ScrollArea>
-      </aside>
-=======
       <aside
         className={`min-w-[300px] max-w-[400px] w-full border-r border-border flex flex-col h-screen min-h-screen overflow-y-auto bg-background z-40 transition-transform duration-500 ease-in-out
         ${!showSidebar ? '-translate-x-full absolute left-0 top-0' : 'relative translate-x-0'}`}
@@ -227,7 +186,6 @@ export function AppLayout() {
           ☰
         </button>
       )}
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
       <main className="flex-1 flex flex-col items-center justify-center overflow-y-auto h-screen min-h-screen p-0 m-0 w-full">
         <SlideManager />
       </main>

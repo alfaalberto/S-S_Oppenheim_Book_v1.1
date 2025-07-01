@@ -33,16 +33,7 @@ function IndexNode({ node, level, onSelect }: IndexNodeProps) {
   return (
     <div className="w-full">
       <Button
-<<<<<<< HEAD
         variant={isActive ? 'secondary' : 'ghost'}
-        size="sm"
-        onClick={handleToggle}
-        className={cn('w-full justify-start h-auto py-2 px-3 text-left', {
-          'font-bold': isActive,
-        })}
-        style={{ paddingLeft: `${level * 1.25 + 0.75}rem` }}
-=======
-        variant="ghost"
         size="sm"
         onClick={handleToggle}
         className={cn(
@@ -58,12 +49,10 @@ function IndexNode({ node, level, onSelect }: IndexNodeProps) {
           fontWeight: level === 0 ? 700 : 500,
           letterSpacing: level === 0 ? '0.01em' : '0',
         }}
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
       >
         {isParent ? (
           <ChevronRight
             className={cn('w-4 h-4 mr-2 shrink-0 transition-transform duration-200', {
-<<<<<<< HEAD
               'rotate-90': isOpen,
             })}
           />
@@ -72,19 +61,7 @@ function IndexNode({ node, level, onSelect }: IndexNodeProps) {
         )}
         <span className="truncate flex-1">{node.title}</span>
       </Button>
-      {isParent && isOpen && (
-=======
-              'rotate-90 text-[hsl(var(--accent))]': isOpen,
-              'text-[hsl(var(--border))]': !isOpen,
-            })}
-          />
-        ) : (
-          <FileText className="w-4 h-4 mr-2 shrink-0 text-[hsl(var(--accent))]" />
-        )}
-        <span className="truncate flex-1">{node.title}</span>
-      </Button>
       {isParent && isOpen && node.children && (
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
         <div className="w-full">
           {node.children.map(child => (
             <IndexNode key={child.id} node={child} level={level + 1} onSelect={onSelect} />

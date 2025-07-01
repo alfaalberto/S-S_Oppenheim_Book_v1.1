@@ -2,10 +2,10 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-<<<<<<< HEAD
+ HEAD
 import { MathJaxProvider } from './MathJaxProvider';
-=======
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
+
+ f88d9b738927a938f3628dc9379a31eccf4825c7
 import { Button } from '@/components/ui/button';
 import { Expand, Shrink, Code, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -17,9 +17,9 @@ interface SlideViewerProps {
   hasPrevious: boolean;
 }
 
-<<<<<<< HEAD
+ HEAD
 export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevious }: SlideViewerProps) {
-=======
+
 // Commit de prueba automático para verificar push a GitHub
 import { useToast } from '@/hooks/use-toast';
 export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevious }: SlideViewerProps) {
@@ -33,7 +33,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     );
   }
 
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
+ f88d9b738927a938f3628dc9379a31eccf4825c7
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -49,11 +49,11 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     };
   }, []);
 
-<<<<<<< HEAD
+ HEAD
   const toggleFullscreen = async () => {
     if (!containerRef.current) return;
 
-=======
+
   // Helper to check Fullscreen API support
   function isFullscreenSupported() {
     const el = document.createElement('div') as any;
@@ -77,7 +77,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
       return;
     }
 
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
+ f88d9b738927a938f3628dc9379a31eccf4825c7
     if (!document.fullscreenElement) {
       try {
         await containerRef.current.requestFullscreen();
@@ -90,7 +90,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
       }
     }
   };
-<<<<<<< HEAD
+ HEAD
   
   const styledHtmlContent = `
     <!DOCTYPE html>
@@ -157,7 +157,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         </script>
       </body>
     </html>
-=======
+
 
   
   const styledHtmlContent = `
@@ -188,7 +188,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     <div class="content-wrapper">
       ${htmlContent || ''}
     </div>
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
+ f88d9b738927a938f3628dc9379a31eccf4825c7
   `;
 
   if (!htmlContent) {
@@ -203,7 +203,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
     );
   }
 
-<<<<<<< HEAD
+ HEAD
   return (
     <MathJaxProvider>
       <div ref={containerRef} className="relative h-full w-full bg-background group overflow-auto px-6">
@@ -244,7 +244,7 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         )}
       </div>
     </MathJaxProvider>
-=======
+
   // Emitir evento cuando se sale de fake fullscreen
   useEffect(() => {
     if (!isFakeFullscreen) {
@@ -299,6 +299,6 @@ export function SlideViewer({ htmlContent, onNext, onPrevious, hasNext, hasPrevi
         </>
       )}
     </div>
->>>>>>> f88d9b738927a938f3628dc9379a31eccf4825c7
+ f88d9b738927a938f3628dc9379a31eccf4825c7
   );
 }
