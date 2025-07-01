@@ -167,23 +167,29 @@ export function SlideManager() {
   };
 
   return (
- HEAD
     <div className="h-full w-full bg-muted/20 flex items-center justify-center overflow-y-auto p-0 m-0">
       <Card className="h-full w-full flex flex-col border-0 shadow-none bg-card p-0 m-0">
-        <CardHeader className="p-4">
-
-    <div className="h-full w-full bg-muted/20 flex items-center justify-center overflow-hidden p-0 m-0">
-      <Card className="h-full w-full flex flex-col border-0 shadow-none bg-card p-0 m-0 rounded-none">
         <CardHeader className="p-4 pb-2">
- f88d9b738927a938f3628dc9379a31eccf4825c7
           <CardTitle className="font-headline text-2xl text-primary">{activeSection.title}</CardTitle>
           <CardDescription>
-            ID de sección: {activeSection.id}
+            {activeSection.description}
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex-1 flex flex-col min-h-0 p-0 m-0 w-full h-full">
-          {isLeafNode ? (
-            <>
+        <CardContent className="flex-1 flex flex-col gap-4 p-4 pt-0">
+          {renderSlideControls()}
+          {isLeafNode && slideContent && (
+            <Tabs defaultValue="ver" className="flex-1 flex flex-col">
+              <TabsList className="mb-2">
+                <TabsTrigger value="ver">Ver</TabsTrigger>
+                <TabsTrigger value="editar">Editar</TabsTrigger>
+              </TabsList>
+              <TabsContent value="ver" className="flex-1 flex flex-col">
+                <SlideViewer html={slideContent.html} />
+              </TabsContent>
+              <TabsContent value="editar" className="flex-1 flex flex-col">
+                <SlideEditor initialContent={slideContent.html} onSave={handleSave} />
+              </TabsContent>
+            </Tabs>
               {renderSlideControls()}
               {slides.length > 0 ? (
                 <Tabs defaultValue="view" className="flex-1 flex flex-col w-full h-full">
